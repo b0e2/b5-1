@@ -51,6 +51,19 @@ class CliSmokeTest(unittest.TestCase):
         result = self.run_cli('KEYS\nquit\n')
         self.assertIn('(empty array)', result.stdout)
 
+    def test_memory_expiration_and_pubsub_in_one_session(self):
+        result = self.run_cli(
+            'CONFIG SET maxmemory 12\nSET a one\nSET b two\nGET a\n'
+            'SET c three\nGET b\nINFO memory\nEXPIRE a 0\nTTL a\n'
+            'SUBSCRIBE news alice\nPUBLISH news "hello world"\n'
+            'POLL alice\nPOLL alice\nquit\n'
+        )
+        self.assertIn('used_memory:10\nmaxmemory:12\nevicted_keys:1',
+                      result.stdout)
+        self.assertIn('(integer) -2', result.stdout)
+        self.assertIn('1. "news"\n2. "hello world"', result.stdout)
+        self.assertEqual(result.stdout.count('(nil)'), 2)
+
 
 class CliCommandTest(unittest.TestCase):
     def test_ttl_and_case_insensitive_commands(self):

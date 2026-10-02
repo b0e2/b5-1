@@ -29,6 +29,25 @@ PUBLISH news "hello world"
 POLL alice
 ```
 
+## 트리
+
+이진 트리 순회와 BST는 CLI 명령과 별도로 사용할 수 있습니다.
+
+```python
+from mini_redis.binary_tree import BinaryTree, BinaryTreeNode
+from mini_redis.bst import BinarySearchTree
+
+tree = BinaryTree(BinaryTreeNode("A", BinaryTreeNode("B"), BinaryTreeNode("C")))
+tree.preorder()   # ["A", "B", "C"]
+tree.level_order()  # ["A", "B", "C"]
+
+bst = BinarySearchTree()
+for value in (3, 1, 4, 2):
+    bst.insert(value)
+bst.inorder()  # [1, 2, 3, 4]
+bst.delete(3)
+```
+
 ## 테스트
 
 ```bash
