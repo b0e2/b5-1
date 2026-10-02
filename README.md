@@ -17,8 +17,17 @@ python3 -m mini_redis
 - 데이터: `SET key value`, `GET key`, `DEL key`, `EXISTS key`, `DBSIZE`, `KEYS`
 - 메모리: `CONFIG SET maxmemory bytes`, `INFO memory`
 - 만료: `EXPIRE key seconds`, `TTL key`
+- 메시징: `SUBSCRIBE channel subscriber`, `PUBLISH channel message`, `POLL subscriber`
 
 `maxmemory`의 단위는 바이트이며 0은 무제한입니다. `used_memory`는 키와 값의 UTF-8 바이트 길이 합계입니다. `KEYS`는 패턴 없이 전체 키를 출력합니다.
+
+단일 CLI에서 구독자를 이름으로 구분합니다. `SUBSCRIBE`는 채널의 구독자 수, `PUBLISH`는 전달된 구독자 수를 반환합니다. `POLL`은 해당 구독자에게 먼저 도착한 메시지를 채널·내용 순서로 반환하고 버퍼에서 제거합니다. 메시지 버퍼는 String 키·값의 `used_memory` 및 TTL과 별도로 관리합니다.
+
+```text
+SUBSCRIBE news alice
+PUBLISH news "hello world"
+POLL alice
+```
 
 ## 테스트
 
@@ -26,4 +35,4 @@ python3 -m mini_redis
 python3 -m unittest discover -s tests -v
 ```
 
-스택·큐·덱 문서는 `docs/STACK_QUEUE_DEQUE.md`에 작성합니다.
+스택·큐·덱 문서는 `docs/STACK_QUEUE_DEQUE.md`에 있습니다.

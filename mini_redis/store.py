@@ -3,6 +3,7 @@ import time
 from .hash_map import HashMap
 from .linked_list import LinkedList
 from .min_heap import MinHeap
+from .pubsub import PubSub
 
 
 class _Record:
@@ -22,6 +23,7 @@ class MiniRedis:
         self._lru = LinkedList()
         self._expirations = MinHeap()
         self._next_expiry_id = 0
+        self._pubsub = PubSub()
         self.used_memory = 0
         self.maxmemory = 0
         self.evicted_keys = 0
@@ -131,3 +133,12 @@ class MiniRedis:
         if record.expires_at is None:
             return -1
         return int(record.expires_at - now)
+
+    def subscribe(self, channel, subscriber):
+        return self._pubsub.subscribe(channel, subscriber)
+
+    def publish(self, channel, message):
+        return self._pubsub.publish(channel, message)
+
+    def poll(self, subscriber):
+        return self._pubsub.poll(subscriber)
