@@ -27,7 +27,8 @@ class BinaryTreeTest(unittest.TestCase):
         self.assertEqual(tree.inorder(), ["D", "B", "E", "A", "C", "F"])
         self.assertEqual(tree.postorder(), ["D", "E", "B", "F", "C", "A"])
         self.assertEqual(tree.level_order(), ["A", "B", "C", "D", "E", "F"])
-        self.assertEqual(tree.level_order(), ["A", "B", "C", "D", "E", "F"])
+        root.left.data = "BB"
+        self.assertEqual(tree.level_order(), ["A", "BB", "C", "D", "E", "F"])
 
     def test_left_and_right_skewed_trees(self):
         left = BinaryTree(BinaryTreeNode(3, BinaryTreeNode(
