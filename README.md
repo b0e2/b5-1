@@ -18,4 +18,4 @@ python3 -m mini_redis
 python3 -m unittest discover -s tests -v
 ```
 
-자료구조와 저장소 명령은 순서대로 추가합니다. 스택·큐·덱 문서는 `docs/STACK_QUEUE_DEQUE.md`에 작성합니다.
+이중 연결 리스트, 체이닝 해시맵, 최소 힙 모듈을 포함합니다. CLI 저장소 명령은 이후 추가합니다. 스택·큐·덱 문서는 `docs/STACK_QUEUE_DEQUE.md`에 작성합니다.
