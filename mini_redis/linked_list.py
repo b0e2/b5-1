@@ -21,6 +21,11 @@ class LinkedList:
     def size(self):
         return self._size
 
+    def peek_back(self):
+        if self._size == 0:
+            return None
+        return self._tail.prev.data
+
     def _insert_between(self, node, before, after):
         node.prev = before
         node.next = after
