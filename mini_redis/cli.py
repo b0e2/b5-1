@@ -29,6 +29,7 @@ def execute(store, words):
         ("SET", 3), ("GET", 2), ("DEL", 2), ("EXISTS", 2),
         ("DBSIZE", 1), ("KEYS", 1), ("CONFIG", 4), ("INFO", 2),
         ("EXPIRE", 3), ("TTL", 2),
+        ("SUBSCRIBE", 3), ("PUBLISH", 3), ("POLL", 2),
     )
     expected = None
     for name, count in counts:
@@ -77,6 +78,17 @@ def execute(store, words):
         if seconds is None:
             return INTEGER_ERROR
         return _integer(store.expire(words[1], seconds))
+    if command == "SUBSCRIBE":
+        return _integer(store.subscribe(words[1], words[2]))
+    if command == "PUBLISH":
+        return _integer(store.publish(words[1], words[2]))
+    if command == "POLL":
+        message = store.poll(words[1])
+        if message is None:
+            return "(nil)"
+        channel, value = message
+        return "1. {}\n2. {}".format(json.dumps(channel, ensure_ascii=False),
+                                     json.dumps(value, ensure_ascii=False))
     return _integer(store.ttl(words[1]))
 
 
