@@ -1,8 +1,11 @@
+from .dynamic_array import DynamicArray
+
+
 class MinHeap:
     """Array-backed minimum heap for comparable items."""
 
     def __init__(self):
-        self._items = []
+        self._items = DynamicArray()
 
     def size(self):
         return len(self._items)
