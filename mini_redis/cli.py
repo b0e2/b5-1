@@ -1,7 +1,4 @@
 import json
-import shlex
-
-from .store import MiniRedis
 
 
 INTEGER_ERROR = "(error) ERR value is not an integer or out of range"
@@ -90,26 +87,3 @@ def execute(store, words):
         return "1. {}\n2. {}".format(json.dumps(channel, ensure_ascii=False),
                                      json.dumps(value, ensure_ascii=False))
     return _integer(store.ttl(words[1]))
-
-
-def main():
-    """Run the interactive command loop."""
-    store = MiniRedis()
-    while True:
-        try:
-            line = input("mini-redis> ").strip()
-        except (EOFError, KeyboardInterrupt):
-            print()
-            return
-        if not line:
-            continue
-        try:
-            words = shlex.split(line)
-        except ValueError:
-            print("(error) ERR syntax error")
-            continue
-        if not words:
-            continue
-        if len(words) == 1 and words[0].lower() in ("exit", "quit"):
-            return
-        print(execute(store, words))
