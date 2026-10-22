@@ -1,6 +1,6 @@
 import unittest
 
-from mini_redis.binary_tree import BinaryTree, BinaryTreeNode
+from mini_redis.structures.binary_tree import BinaryTree, BinaryTreeNode
 
 
 class BinaryTreeTest(unittest.TestCase):

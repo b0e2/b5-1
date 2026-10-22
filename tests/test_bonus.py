@@ -1,7 +1,7 @@
 import unittest
 
-from mini_redis.dynamic_array import DynamicArray
-from mini_redis.min_heap import MinHeap
+from mini_redis.structures.dynamic_array import DynamicArray
+from mini_redis.structures.min_heap import MinHeap
 from mini_redis.store import MiniRedis
 
 

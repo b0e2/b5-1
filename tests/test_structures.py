@@ -1,8 +1,8 @@
 import unittest
 
-from mini_redis.hash_map import HashMap
-from mini_redis.linked_list import LinkedList
-from mini_redis.min_heap import MinHeap
+from mini_redis.structures.hash_map import HashMap
+from mini_redis.structures.linked_list import LinkedList
+from mini_redis.structures.min_heap import MinHeap
 
 
 class LinkedListTest(unittest.TestCase):

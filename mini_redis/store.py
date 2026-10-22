@@ -1,9 +1,9 @@
 import time
 
-from .hash_map import HashMap
-from .linked_list import LinkedList
-from .min_heap import MinHeap
 from .pubsub import PubSub
+from .structures.hash_map import HashMap
+from .structures.linked_list import LinkedList
+from .structures.min_heap import MinHeap
 
 
 class _Record:

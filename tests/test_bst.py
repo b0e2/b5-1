@@ -1,6 +1,6 @@
 import unittest
 
-from mini_redis.bst import BinarySearchTree
+from mini_redis.structures.bst import BinarySearchTree
 
 
 class BinarySearchTreeTest(unittest.TestCase):

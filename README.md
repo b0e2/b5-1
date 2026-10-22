@@ -45,8 +45,8 @@ POLL alice
 이진 트리 순회와 BST는 CLI 명령과 별도로 사용할 수 있습니다.
 
 ```python
-from mini_redis.binary_tree import BinaryTree, BinaryTreeNode
-from mini_redis.bst import BinarySearchTree
+from mini_redis.structures.binary_tree import BinaryTree, BinaryTreeNode
+from mini_redis.structures.bst import BinarySearchTree
 
 tree = BinaryTree(BinaryTreeNode("A", BinaryTreeNode("B"), BinaryTreeNode("C")))
 tree.preorder()   # ["A", "B", "C"]

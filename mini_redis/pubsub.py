@@ -1,5 +1,5 @@
-from .hash_map import HashMap
-from .linked_list import LinkedList
+from .structures.hash_map import HashMap
+from .structures.linked_list import LinkedList
 
 
 class PubSub:
