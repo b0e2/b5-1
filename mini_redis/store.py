@@ -39,11 +39,11 @@ class MiniRedis:
             self.evicted_keys += 1
 
     def _purge_expired(self, now):
-        while self._expirations.peek() is not None:
-            expires_at, key, expiry_id = self._expirations.peek()
-            if expires_at > now:
+        while True:
+            expiration = self._expirations.peek()
+            if expiration is None or expiration[0] > now:
                 break
-            self._expirations.pop()
+            _, key, expiry_id = self._expirations.pop()
             record = self._data.get(key)
             if record is not None and record.expiry_id == expiry_id:
                 self._remove(key)
