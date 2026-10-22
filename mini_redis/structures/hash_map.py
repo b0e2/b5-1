@@ -1,8 +1,10 @@
-from .linked_list import LinkedList
+from typing import Any, List, Optional
+
+from .linked_list import LinkedList, Node
 
 
 class _Entry:
-    def __init__(self, key, value):
+    def __init__(self, key, value) -> None:
         self.key = key
         self.value = value
 
@@ -10,13 +12,13 @@ class _Entry:
 class HashMap:
     """String-keyed hash map using separate chaining."""
 
-    def __init__(self, capacity=8):
+    def __init__(self, capacity=8) -> None:
         if capacity < 1:
             raise ValueError("capacity must be positive")
         self._buckets = [None] * capacity
         self._size = 0
 
-    def _hash(self, key):
+    def _hash(self, key) -> int:
         """Compute an FNV-1a hash from the UTF-8 bytes of a key."""
         value = 2166136261
         for byte in key.encode("utf-8"):
@@ -24,14 +26,14 @@ class HashMap:
             value = (value * 16777619) & 0xFFFFFFFF
         return value
 
-    def _find_node(self, key, bucket):
+    def _find_node(self, key, bucket) -> Optional[Node]:
         if bucket is not None:
             for node in bucket.iter_nodes():
                 if node.data.key == key:
                     return node
         return None
 
-    def put(self, key, value):
+    def put(self, key, value) -> Optional[Any]:
         index = self._hash(key) % len(self._buckets)
         bucket = self._buckets[index]
         node = self._find_node(key, bucket)
@@ -49,7 +51,7 @@ class HashMap:
             self._resize()
         return None
 
-    def _resize(self):
+    def _resize(self) -> None:
         old_buckets = self._buckets
         self._buckets = [None] * (len(old_buckets) * 2)
         self._size = 0
@@ -58,12 +60,12 @@ class HashMap:
                 for entry in bucket:
                     self.put(entry.key, entry.value)
 
-    def get(self, key):
+    def get(self, key) -> Optional[Any]:
         index = self._hash(key) % len(self._buckets)
         node = self._find_node(key, self._buckets[index])
         return None if node is None else node.data.value
 
-    def remove(self, key):
+    def remove(self, key) -> Optional[Any]:
         index = self._hash(key) % len(self._buckets)
         bucket = self._buckets[index]
         node = self._find_node(key, bucket)
@@ -75,11 +77,11 @@ class HashMap:
             self._buckets[index] = None
         return value
 
-    def contains(self, key):
+    def contains(self, key) -> bool:
         index = self._hash(key) % len(self._buckets)
         return self._find_node(key, self._buckets[index]) is not None
 
-    def keys(self):
+    def keys(self) -> List[str]:
         result = []
         for bucket in self._buckets:
             if bucket is not None:
@@ -87,5 +89,5 @@ class HashMap:
                     result.append(entry.key)
         return result
 
-    def size(self):
+    def size(self) -> int:
         return self._size

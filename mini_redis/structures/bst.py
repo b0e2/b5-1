@@ -1,10 +1,12 @@
+from typing import Optional, Tuple
+
 from .binary_tree import BinaryTree, BinaryTreeNode
 
 
 class BinarySearchTree(BinaryTree):
     """Binary search tree with unique, orderable values."""
 
-    def insert(self, value):
+    def insert(self, value) -> bool:
         """Insert a new value and return whether it was added."""
         if self.root is None:
             self.root = BinaryTreeNode(value)
@@ -25,7 +27,7 @@ class BinarySearchTree(BinaryTree):
                     return True
                 node = node.right
 
-    def search(self, value):
+    def search(self, value) -> bool:
         """Return whether a value exists in the tree."""
         node = self.root
         while node is not None:
@@ -34,9 +36,9 @@ class BinarySearchTree(BinaryTree):
             node = node.left if value < node.data else node.right
         return False
 
-    def delete(self, value):
+    def delete(self, value) -> bool:
         """Remove a value and return whether it existed."""
-        def remove(node, target):
+        def remove(node, target) -> Tuple[Optional[BinaryTreeNode], bool]:
             if node is None:
                 return None, False
             if target < node.data:

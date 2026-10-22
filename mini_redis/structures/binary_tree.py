@@ -1,10 +1,12 @@
+from typing import Any, List
+
 from .linked_list import LinkedList
 
 
 class BinaryTreeNode:
     """A node with at most two children."""
 
-    def __init__(self, data, left=None, right=None):
+    def __init__(self, data, left=None, right=None) -> None:
         self.data = data
         self.left = left
         self.right = right
@@ -13,13 +15,13 @@ class BinaryTreeNode:
 class BinaryTree:
     """A binary tree with depth-first and level-order traversals."""
 
-    def __init__(self, root=None):
+    def __init__(self, root=None) -> None:
         self.root = root
 
-    def preorder(self):
+    def preorder(self) -> List[Any]:
         result = []
 
-        def visit(node):
+        def visit(node) -> None:
             if node is None:
                 return
             result.append(node.data)
@@ -29,10 +31,10 @@ class BinaryTree:
         visit(self.root)
         return result
 
-    def inorder(self):
+    def inorder(self) -> List[Any]:
         result = []
 
-        def visit(node):
+        def visit(node) -> None:
             if node is None:
                 return
             visit(node.left)
@@ -42,10 +44,10 @@ class BinaryTree:
         visit(self.root)
         return result
 
-    def postorder(self):
+    def postorder(self) -> List[Any]:
         result = []
 
-        def visit(node):
+        def visit(node) -> None:
             if node is None:
                 return
             visit(node.left)
@@ -55,7 +57,7 @@ class BinaryTree:
         visit(self.root)
         return result
 
-    def level_order(self):
+    def level_order(self) -> List[Any]:
         if self.root is None:
             return []
 
