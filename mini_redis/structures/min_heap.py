@@ -1,25 +1,27 @@
+from typing import Any, Optional
+
 from .dynamic_array import DynamicArray
 
 
 class MinHeap:
     """Array-backed minimum heap for comparable items."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._items = DynamicArray()
 
-    def size(self):
+    def size(self) -> int:
         return len(self._items)
 
-    def peek(self):
+    def peek(self) -> Optional[Any]:
         if not self._items:
             return None
         return self._items[0]
 
-    def push(self, item):
+    def push(self, item) -> None:
         self._items.append(item)
         self._heapify_up(len(self._items) - 1)
 
-    def pop(self):
+    def pop(self) -> Optional[Any]:
         if not self._items:
             return None
         smallest = self._items[0]
@@ -29,7 +31,7 @@ class MinHeap:
             self._heapify_down(0)
         return smallest
 
-    def _heapify_up(self, index):
+    def _heapify_up(self, index) -> None:
         while index > 0:
             parent = (index - 1) // 2
             if not self._items[index] < self._items[parent]:
@@ -37,7 +39,7 @@ class MinHeap:
             self._items[index], self._items[parent] = self._items[parent], self._items[index]
             index = parent
 
-    def _heapify_down(self, index):
+    def _heapify_down(self, index) -> None:
         size = len(self._items)
         while True:
             left = 2 * index + 1

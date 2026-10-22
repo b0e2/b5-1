@@ -1,3 +1,5 @@
+from typing import Any, Optional, Tuple
+
 from .structures.hash_map import HashMap
 from .structures.linked_list import LinkedList
 
@@ -5,11 +7,11 @@ from .structures.linked_list import LinkedList
 class PubSub:
     """Channel subscriptions with a FIFO message buffer per subscriber."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._channels = HashMap()
         self._mailboxes = HashMap()
 
-    def subscribe(self, channel, subscriber):
+    def subscribe(self, channel, subscriber) -> int:
         """Register once and return the channel's subscriber count."""
         subscribers = self._channels.get(channel)
         if subscribers is None:
@@ -23,7 +25,7 @@ class PubSub:
             self._mailboxes.put(subscriber, LinkedList())
         return subscribers.size()
 
-    def publish(self, channel, message):
+    def publish(self, channel, message) -> int:
         """Queue a message for each current subscriber and return the count."""
         subscribers = self._channels.get(channel)
         if subscribers is None:
@@ -32,7 +34,7 @@ class PubSub:
             self._mailboxes.get(name).insert_back((channel, message))
         return subscribers.size()
 
-    def poll(self, subscriber):
+    def poll(self, subscriber) -> Optional[Tuple[str, Any]]:
         """Remove the oldest message for a subscriber, if any."""
         mailbox = self._mailboxes.get(subscriber)
         return None if mailbox is None else mailbox.remove_front()

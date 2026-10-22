@@ -4,7 +4,7 @@ from .cli import execute
 from .store import MiniRedis
 
 
-def main():
+def main() -> None:
     """Run the interactive command loop."""
     store = MiniRedis()
     while True:

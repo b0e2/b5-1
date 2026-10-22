@@ -1,15 +1,16 @@
 import json
+from typing import Optional
 
 
 INTEGER_ERROR = "(error) ERR value is not an integer or out of range"
 OOM_ERROR = "(error) OOM command not allowed when used_memory > 'maxmemory'"
 
 
-def _integer(value):
+def _integer(value) -> str:
     return "(integer) {}".format(value)
 
 
-def _parse_integer(value):
+def _parse_integer(value) -> Optional[int]:
     try:
         number = int(value)
     except (ValueError, OverflowError):
@@ -19,28 +20,28 @@ def _parse_integer(value):
     return number
 
 
-def _set(store, words):
+def _set(store, words) -> str:
     return "OK" if store.set(words[1], words[2]) else OOM_ERROR
 
 
-def _get(store, words):
+def _get(store, words) -> str:
     value = store.get(words[1])
     return "(nil)" if value is None else json.dumps(value, ensure_ascii=False)
 
 
-def _delete(store, words):
+def _delete(store, words) -> str:
     return _integer(store.delete(words[1]))
 
 
-def _exists(store, words):
+def _exists(store, words) -> str:
     return _integer(int(store.exists(words[1])))
 
 
-def _dbsize(store, words):
+def _dbsize(store, words) -> str:
     return _integer(store.dbsize())
 
 
-def _keys(store, words):
+def _keys(store, words) -> str:
     keys = store.keys()
     if not keys:
         return "(empty array)"
@@ -48,7 +49,7 @@ def _keys(store, words):
                      for i, key in enumerate(keys, 1))
 
 
-def _config(store, words):
+def _config(store, words) -> str:
     if words[1].upper() != "SET" or words[2].lower() != "maxmemory":
         return "(error) ERR syntax error"
     limit = _parse_integer(words[3])
@@ -58,7 +59,7 @@ def _config(store, words):
     return "OK"
 
 
-def _info(store, words):
+def _info(store, words) -> str:
     if words[1].lower() != "memory":
         return "(error) ERR syntax error"
     used, limit, evicted = store.info_memory()
@@ -67,26 +68,26 @@ def _info(store, words):
     )
 
 
-def _expire(store, words):
+def _expire(store, words) -> str:
     seconds = _parse_integer(words[2])
     if seconds is None:
         return INTEGER_ERROR
     return _integer(store.expire(words[1], seconds))
 
 
-def _ttl(store, words):
+def _ttl(store, words) -> str:
     return _integer(store.ttl(words[1]))
 
 
-def _subscribe(store, words):
+def _subscribe(store, words) -> str:
     return _integer(store.subscribe(words[1], words[2]))
 
 
-def _publish(store, words):
+def _publish(store, words) -> str:
     return _integer(store.publish(words[1], words[2]))
 
 
-def _poll(store, words):
+def _poll(store, words) -> str:
     message = store.poll(words[1])
     if message is None:
         return "(nil)"
@@ -112,7 +113,7 @@ _COMMANDS = {
 }
 
 
-def execute(store, words):
+def execute(store, words) -> str:
     """Execute one parsed command and return its printable result."""
     command = words[0].upper()
     entry = _COMMANDS.get(command)
